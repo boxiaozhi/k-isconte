@@ -1,0 +1,23 @@
+{
+  "name": "k-isconte",
+  "version": "1.0.0",
+  "description": "admin for isconte",
+  "main": "index.js",
+  "repository": "git@github.com:boxiaozhi/k-isconte.git",
+  "author": "Conte",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.11.0",
+    "koa-json-error": "^3.1.2",
+    "koa-jwt": "^3.6.0",
+    "koa-parameter": "^3.0.1",
+    "koa-router": "^7.4.0",
+    "mysql": "^2.17.1"
+  }
+}
