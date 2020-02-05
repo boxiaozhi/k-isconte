@@ -4,8 +4,7 @@ class UserModel {
     async findOne(ctx) {
         const name = ctx.username
         const password = ctx.password
-        let sql = "SELECT * FROM user WHERE `username`='"+name+"' AND `password`='"+password+"'";
-        console.log(sql)
+        let sql = "SELECT * FROM users WHERE `username`='"+name+"' AND `password`='"+password+"'";
         const res = await query(sql)
         return res
     }
