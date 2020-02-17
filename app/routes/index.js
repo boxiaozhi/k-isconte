@@ -1,3 +1,4 @@
+const jwt = require("koa-jwt");
 const fs = require("fs");
 
 module.exports = app => {
@@ -6,6 +7,16 @@ module.exports = app => {
             return;
         }
         const route = require(`./${file}`);
+
+        app.use(jwt({ secret: process.env.TOKEN_KEY, key: 'jwtdata' })
+            .unless({
+                path: [
+                    /^\/users\/login/,
+                    /^\/users\/create/,
+                    /^\/douban/,
+                ]
+            }));
+
         app.use(route.routes()).use(route.allowedMethods());
-    });
-};
+    })
+}

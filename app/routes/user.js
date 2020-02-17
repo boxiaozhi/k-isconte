@@ -1,19 +1,18 @@
-const jwt = require("koa-jwt");
 const Router = require("koa-router");
 const router = new Router({ prefix: "/users" });
 
 const {
+    sync,
     create,
     login,
-    getOne,
+    find,
+    resetPassword
 } = require("../controllers/user");
 
-const auth = jwt({ secret: process.env.TOKEN_KEY });
-
-router.get("/", create);
-
-router.get("/login", login);
-
-router.get("/getOne", auth, getOne);
+router.post("/sync", sync);
+router.post("/create", create);
+router.post("/login", login);
+router.get("/find", find);
+router.post("/resetPassword", resetPassword);
 
 module.exports = router;

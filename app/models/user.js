@@ -1,13 +1,24 @@
-const { query } = require('../untils/asyncDB')
+const Sequelize = require('sequelize');
+const sequelize = require('../untils/sequelize')
 
-class UserModel {
-    async findOne(ctx) {
-        const name = ctx.username
-        const password = ctx.password
-        let sql = "SELECT * FROM users WHERE `username`='"+name+"' AND `password`='"+password+"'";
-        const res = await query(sql)
-        return res
-    }
-}
+const Model = Sequelize.Model;
+class User extends Model {}
 
-module.exports = new UserModel();
+User.init(
+{
+        username: {
+            type: Sequelize.STRING,
+            comment: '用户名',
+        },
+        password: {
+            type: Sequelize.STRING,
+            comment: '密码',
+        }
+    },
+{
+    sequelize,
+    modelName: 'user',
+    tableName: 'users',
+});
+
+module.exports = User;
