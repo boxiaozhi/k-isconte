@@ -14,6 +14,7 @@ module.exports = app => {
                     /^\/users\/login/,
                     /^\/users\/create/,
                     /^\/douban/,
+                    /^\/one/,
                 ]
             }));
 

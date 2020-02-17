@@ -5,10 +5,12 @@ const koaBody = require('koa-body');
 const parameter = require("koa-parameter");
 const error = require("koa-json-error");
 const routing = require("./routes");
+var cors = require('koa2-cors');
 
 const app = new Koa();
 
 app.use(koaBody());
+app.use(cors());
 app.use(
     error({
         postFormat: (e, { stack, ...rest }) =>
