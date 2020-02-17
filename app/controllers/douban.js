@@ -11,7 +11,6 @@ class DoubanController {
     }
     async movieCollect(ctx) {
         let res = await DoubanService.movieCollect(ctx.request.query)
-        console.log(res)
         let data = await DoubanService.movieDataFormat(res)
         ctx.body = data
     }

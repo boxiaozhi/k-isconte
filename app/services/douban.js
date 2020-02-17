@@ -91,10 +91,11 @@ class DoubanService {
      * @returns {Promise<T>}
      */
     async movieCollect(params) {
-        var uri = this.movieUrl+'/people/'+params.id+'/collect'
+        let uri = this.movieUrl+'/people/'+params.id+'/collect'
         let options = {
             method: 'GET',
             uri: uri,
+            qs: params,
         }
         return rp(options)
             .then(function (html) {
@@ -113,7 +114,8 @@ class DoubanService {
      * @returns {Promise<[]>}
      */
     async movieDataFormat(html) {
-        let res = []
+        var data = []
+        let res = {}
         let $ = cheerio.load(html)
         let items = $('#wrapper .article .item')
 
@@ -134,7 +136,7 @@ class DoubanService {
             let dateValue = $(dateDom).text().replace(/\s/gi, '')
             let picSrcValue = $(picSrcDom).attr('src')
 
-            res.push({
+            data.push({
                 title: titleValue,
                 intro: introValue,
                 link: linkValue,
@@ -142,6 +144,17 @@ class DoubanService {
                 pic: picSrcValue,
             })
         }
+
+        let numberStr = $('#wrapper #content .mode .subject-num').text().replace(/\s/gi, '')
+        let numberArr = numberStr.split('/')
+        let total = parseInt(numberArr[1])
+        let startEnd = numberArr[0].split('-')
+        let start = parseInt(startEnd[0])
+        let end = parseInt(startEnd[1])
+        res.total = total
+        res.start = start
+        res.end = end
+        res.data = data
         return res
     }
 
