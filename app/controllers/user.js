@@ -5,7 +5,7 @@ const User = require("../models/user")
 class UserController {
     async sync(ctx) {
         ctx.verifyParams({
-            f: { type: "boolean", required: false, default: false },
+            f: { type: "string", required: false, default: false },
         })
         let force = Boolean(ctx.request.body.f)
         let user = await User.sync({force: force})
