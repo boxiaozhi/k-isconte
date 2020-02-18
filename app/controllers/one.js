@@ -1,7 +1,23 @@
 const rp = require('request-promise')
-const OneService = require("../services/one")
+const OneService = require('../services/one')
+const OneModel = require('../models/one')
 
 class OneController {
+    async sync(ctx) {
+        ctx.verifyParams({
+            f: { type: "boolean", required: false, default: false },
+        })
+        let force = Boolean(ctx.request.body.f)
+        let one = await OneModel.sync({force: force})
+        let resStr = one ? 'success' : 'fail'
+        ctx.body = {
+            status: 200,
+            message: '',
+            data: {
+                res: resStr,
+            },
+        }
+    }
     async token(ctx) {
         let token = await OneService.getToken()
         ctx.body = { token: token };

@@ -4,9 +4,8 @@ const router = new Router({ prefix: "/one" });
 
 const OneController = require("../controllers/one")
 
-const auth = jwt({ secret: process.env.TOKEN_KEY });
-
 router.get("/token", OneController.token);
 router.get("/ajaxlist", OneController.ajaxlist);
+router.post("/sync", OneController.sync)
 
 module.exports = router;
