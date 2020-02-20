@@ -1,8 +1,10 @@
 const rp = require('request-promise')
+const sequelize = require('../untils/sequelize')
 const OneService = require('../services/one')
 const OneModel = require('../models/one')
 
 class OneController {
+    //初始化
     async sync(ctx) {
         ctx.verifyParams({
             f: { type: "string", required: false, default: false },
@@ -19,11 +21,13 @@ class OneController {
         }
     }
 
+    //获取 token
     async token(ctx) {
         let token = await OneService.getToken()
         ctx.body = { token: token };
     }
 
+    //获取内容列表
     async ajaxlist(ctx) {
         ctx.verifyParams({
             type: { type: "string", required: true },
@@ -35,6 +39,7 @@ class OneController {
         ctx.body = res;
     }
 
+    //更新存储
     async store(ctx) {
         const type = ctx.request.body.type
         let start = parseInt(ctx.request.body.start)
@@ -85,6 +90,18 @@ class OneController {
                 query_num: queryNum,
                 last_id: start
             },
+        }
+    }
+
+    //随机返回一条数据
+    async random(ctx) {
+        let res = await OneModel.findOne({
+            order: sequelize.random()
+        })
+        ctx.body = {
+            status: 200,
+            message: '',
+            data: res.data,
         }
     }
 }
