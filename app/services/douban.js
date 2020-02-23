@@ -1,6 +1,5 @@
 const rp = require('request-promise')
 const cheerio = require('cheerio')
-var Iconv = require('iconv-lite');
 
 class DoubanService {
     constructor() {
@@ -32,8 +31,8 @@ class DoubanService {
             jar: cookiejar,
             formData: {
                 ck: '',
-                name: '17080954643',
-                password: '111zzq6534A',
+                name: process.env.DOUBAN_USERNAME,
+                password: process.env.DOUBAN_PASSWORD,
                 remember: 'false',
                 ticket: '',
             },
@@ -172,14 +171,6 @@ class DoubanService {
                 "Accept": " text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
                 "Accept-Encoding": " gzip",
                 "Accept-Language": " zh-CN,zh;q=0.9,en;q=0.8,fr;q=0.7,ja;q=0.6,th;q=0.5,zh-TW;q=0.4",
-                //"Cache-Control": " max-age=0",
-                //"Connection": " keep-alive",
-                //"DNT": " 1",
-                //"Host": " www.douban.com",
-                //"Sec-Fetch-Mode": " navigate",
-                //"Sec-Fetch-Site": " none",
-                //"Sec-Fetch-User": " ?1",
-                //"Upgrade-Insecure-Requests": " 1",
                 "User-Agent": " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"
             },
             gzip: true,
@@ -304,6 +295,30 @@ class DoubanService {
                 collect: musicCollectValue,
             }
         }
+    }
+
+    async statuses() {
+        var uri = this.baseUrl+'/people/'+params.id+'/statuses'
+        let options = {
+            method: 'GET',
+            uri: uri,
+            headers: {
+                "Accept": " text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                "Accept-Encoding": " gzip",
+                "Accept-Language": " zh-CN,zh;q=0.9,en;q=0.8,fr;q=0.7,ja;q=0.6,th;q=0.5,zh-TW;q=0.4",
+                "User-Agent": " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"
+            },
+            gzip: true,
+        }
+        return rp(options)
+            .then(function (html) {
+                return new Promise((resolve) => {
+                    resolve(html)
+                })
+            })
+            .catch(function (err) {
+                return err
+            });
     }
 }
 

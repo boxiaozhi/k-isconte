@@ -15,7 +15,6 @@ class OneService {
         return rp(options)
             .then(function (htmlString) {
                 var cookieStr = cookiejar.getCookieString(uri)
-                console.log(cookieStr)
                 const tokenArr = htmlString.match(/One\.token[\s]*=[\s]*'([0-9a-z]*)'/i)
                 token = tokenArr[1]
                 return new Promise((resolve) => {
