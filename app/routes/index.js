@@ -16,6 +16,7 @@ module.exports = app => {
                     /^\/douban/,
                     /^\/one/,
                     /^\/yuque/,
+                    /^\/system/,
                 ]
             }));
 

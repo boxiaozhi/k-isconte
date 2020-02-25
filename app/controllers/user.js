@@ -104,6 +104,11 @@ class UserController {
             message: '',
             data: {
                 token: token,
+                info: {
+                    username: res.username,
+                    created_at: res.created_at,
+                    updated_at: res.updated_at,
+                }
             }
         }
     }
