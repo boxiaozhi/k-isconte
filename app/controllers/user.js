@@ -136,6 +136,26 @@ class UserController {
             }
         }
     }
+
+    //获取登录信息
+    async info(ctx) {
+        const username = ctx.state.jwtdata.username;
+        let res = await User.findOne({
+            where: {
+                username: username,
+            }
+        });
+        ctx.body = {
+            status: 200,
+            message: '',
+            data: {
+                id: res.id,
+                username: res.username,
+                created_at: res.created_at,
+                updated_at: res.updated_at,
+            }
+        }
+    }
 }
 
 module.exports = new UserController();

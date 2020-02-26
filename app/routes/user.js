@@ -6,7 +6,7 @@ const {
     create,
     login,
     find,
-    resetPassword
+    resetPassword,
 } = require("../controllers/user");
 
 router.post("/sync", sync);
