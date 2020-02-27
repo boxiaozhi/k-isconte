@@ -12,11 +12,11 @@ module.exports = app => {
             .unless({
                 path: [
                     /^\/users\/login/,
-                    /^\/users\/create/,
                     /^\/douban/,
-                    /^\/one/,
+                    /^\/one\/(random|ajaxlist|token)/,
                     /^\/yuque/,
                     /^\/system/,
+                    /^\/about/,
                 ]
             }));
 

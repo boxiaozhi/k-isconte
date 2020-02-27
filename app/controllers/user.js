@@ -1,8 +1,14 @@
 const jsonwebtoken = require("jsonwebtoken")
 const md5 = require("blueimp-md5")
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+
 const User = require("../models/user")
 
 class UserController {
+    constructor() {
+    }
+
     async sync(ctx) {
         ctx.verifyParams({
             f: { type: "string", required: false, default: false },
@@ -154,6 +160,61 @@ class UserController {
                 created_at: res.created_at,
                 updated_at: res.updated_at,
             }
+        }
+    }
+
+    /**
+     * 获取配置信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async getSetting(ctx) {
+        const username = ctx.state.jwtdata.username;
+        const adapter = new FileSync('./db/lowdb/user_setting.json');
+        const db = low(adapter);
+
+        db.defaults({
+            setting: []
+        }).write()
+        let setting = db.get('setting')
+            .find({ username: username})
+            .value();
+        ctx.body = {
+            status: 200,
+            message: '',
+            data: setting
+        }
+    }
+
+    /**
+     * 添加或更新配置信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async addOrUpdateSetting(ctx) {
+        const username = ctx.state.jwtdata.username;
+        const setting = ctx.request.body
+        const adapter = new FileSync('./db/lowdb/user_setting.json');
+        const db = low(adapter);
+
+        setting.username = username
+        let res = db.get('setting')
+            .find({ username: username})
+            .value();
+        if (!res) {
+            res = db.get('setting')
+                .push(setting)
+                .write();
+        } else {
+            res = db.get('setting')
+                .find({ username: username})
+                .assign(setting)
+                .write();
+        }
+        ctx.body = {
+            status: 200,
+            message: '',
+            data: res
         }
     }
 }

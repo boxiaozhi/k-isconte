@@ -4,6 +4,7 @@ class OneService {
     constructor() {
         this.baseUrl = 'http://m.wufazhuce.com'
     }
+
     async getToken() {
         var uri = this.baseUrl+'/one'
         var cookiejar = rp.jar()

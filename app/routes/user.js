@@ -11,8 +11,9 @@ const {
 
 router.post("/sync", sync);
 router.post("/create", create);
-router.post("/login", login);
-router.get("/find", find);
 router.post("/resetPassword", resetPassword);
+router.get("/find", find);
+
+router.post("/login", login);
 
 module.exports = router;
