@@ -45,7 +45,7 @@ class UserController {
             }
         })
         if(findRes) {
-            ctx.throw(401, "用户名已存在");
+            ctx.throw(402, "用户名已存在");
         }
         let res = await User.create({
             username: username,
@@ -74,7 +74,7 @@ class UserController {
             }
         })
         if(!res) {
-            ctx.throw(401, "用户不存在");
+            ctx.throw(402, "用户不存在");
         }
         ctx.body = {
             status: 200,
@@ -101,7 +101,7 @@ class UserController {
             }
         })
         if (!res) {
-            ctx.throw(401, "用户名或密码不正确");
+            ctx.throw(402, "用户名或密码不正确");
         }
         let id = res.id
         const token = jsonwebtoken.sign({ id, username }, process.env.TOKEN_KEY, { expiresIn: "1d" });

@@ -23,6 +23,10 @@ Software.init(
             type: Sequelize.STRING,
             comment: '简码',
         },
+        tag_ids: {
+            type: Sequelize.JSON,
+            comment: '标签',
+        },
         rules: {
             type: Sequelize.JSON,
             comment: '抓取规则',
