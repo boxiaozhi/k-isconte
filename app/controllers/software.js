@@ -1,3 +1,5 @@
+const { ERROR_CODE } = require("../untils/error")
+
 const Software = require("../models/software")
 const SoftwareRecord = require("../models/softwareRecord")
 const SoftwareTag = require("../models/softwareTag")
@@ -33,10 +35,10 @@ class SoftwareController {
     async tagList(ctx) {
         let page = ctx.request.query.page ? parseInt(ctx.request.query.page) : 1;
         let pageSize = ctx.request.query.pageSize ? parseInt(ctx.request.query.pageSize) : 15;
-        let offset = (page - 1) * 15;
+        let offset = (page - 1) * pageSize;
         let limit = offset + pageSize;
 
-        let total = await Software.count()
+        let total = await SoftwareTag.count()
         let res = await SoftwareTag.findAll({
             order: [
                 ['id', 'DESC']
@@ -100,13 +102,18 @@ class SoftwareController {
             }
         });
         if (!idRes) {
-            ctx.body = {
-                status: 404,
-                message: '未找到数据',
-                data: {
-                    res: false,
-                },
-            }
+            ctx.throw(
+                200,
+                '',
+                {
+                    code: ERROR_CODE.NOT_FOUND,
+                    errors: [
+                        {
+                            message: 'id 不存在',
+                        }
+                    ]
+                }
+            )
         }
         let nameRes = await SoftwareTag.findOne({
             where: {
@@ -114,13 +121,13 @@ class SoftwareController {
             }
         });
         if (nameRes && nameRes.id != id) {
-            ctx.body = {
-                status: 500,
-                message: '标签名已存在',
-                data: {
-                    res: false,
-                },
-            }
+            ctx.throw(
+                200,
+                '标签名已存在',
+                {
+                    code: ERROR_CODE.EXIST,
+                }
+            )
         }
 
         idRes.name = name
@@ -130,6 +137,66 @@ class SoftwareController {
             message: '',
             data: {
                 res: updateRes,
+            },
+        }
+    }
+
+    /**
+     * 软件列表
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async softwareList(ctx) {
+        let page = ctx.request.query.page ? parseInt(ctx.request.query.page) : 1;
+        let pageSize = ctx.request.query.pageSize ? parseInt(ctx.request.query.pageSize) : 15;
+        let offset = (page - 1) * pageSize;
+        let limit = offset + pageSize;
+
+        let total = await Software.count()
+        let res = await Software.findAll({
+            order: [
+                ['id', 'DESC']
+            ],
+            offset: offset,
+            limit: limit,
+        })
+        ctx.body = {
+            status: 200,
+            message: '',
+            data: {
+                total: total,
+                start: offset,
+                end: limit,
+                records: res,
+            },
+        }
+    }
+
+    /**
+     * 添加软件信息
+     * @param ctx
+     * @returns {Promise<void>}
+     */
+    async addTag(ctx) {
+        ctx.verifyParams({
+            name: {type: "string", required: true},
+            alias: {type: "string", required: false, default: ''},
+            code: {type: "string", required: true},
+            tag_ids: { type: 'array', required: false, default: [] },
+            rules: { type: 'object', required: true },
+        })
+        let name = (ctx.request.body.name).trim()
+        let [user, created] = await SoftwareTag.findOrCreate({
+            where: {
+                name: name
+            }
+        })
+        ctx.body = {
+            status: 200,
+            message: '',
+            data: {
+                res: created,
+                user: user,
             },
         }
     }
