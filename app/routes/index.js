@@ -17,6 +17,7 @@ module.exports = app => {
                     /^\/yuque/,
                     /^\/system/,
                     /^\/about/,
+                    /^\/websocket/,
                 ]
             }));
 

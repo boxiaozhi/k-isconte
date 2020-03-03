@@ -1349,6 +1349,11 @@ wkx@^0.4.8:
   dependencies:
     "@types/node" "*"
 
+ws@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.npm.taobao.org/ws/download/ws-7.2.1.tgz#03ed52423cd744084b2cf42ed197c8b65a936b8e"
+  integrity sha1-A+1SQjzXRAhLLPQu0ZfItlqTa44=
+
 yallist@^2.1.2:
   version "2.1.2"
   resolved "https://registry.npm.taobao.org/yallist/download/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"

@@ -22,4 +22,14 @@ app.use(
 );
 routing(app);
 
-app.listen(3000);
+let server = app.listen(3000);
+
+const WebSocket = require('ws');
+const WebSocketApi = require('./untils/ws');
+const wss = new WebSocket.Server({
+    server
+});
+WebSocketApi(wss);
+
+global.wssockets = new Map();
+global.wss = wss;
