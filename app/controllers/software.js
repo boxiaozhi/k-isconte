@@ -3,6 +3,7 @@ const { ERROR_CODE } = require("../untils/error")
 const Software = require("../models/software")
 const SoftwareRecord = require("../models/softwareRecord")
 const SoftwareTag = require("../models/softwareTag")
+const SoftwareService = require('../services/software')
 
 class SoftwareController {
     constructor() {
@@ -199,6 +200,12 @@ class SoftwareController {
                 user: user,
             },
         }
+    }
+
+    async sougouDetail(ctx) {
+        let res = await SoftwareService.sougou(ctx.request.query)
+        let resFormat = await SoftwareService.sougouFormat(res)
+        ctx.body = resFormat
     }
 }
 

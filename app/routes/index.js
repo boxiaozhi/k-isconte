@@ -18,6 +18,7 @@ module.exports = app => {
                     /^\/system/,
                     /^\/about/,
                     /^\/websocket/,
+                    /^\/software/,
                 ]
             }));
 
