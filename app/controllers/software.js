@@ -202,10 +202,17 @@ class SoftwareController {
         }
     }
 
-    async sougouDetail(ctx) {
-        let res = await SoftwareService.sougou(ctx.request.query)
-        let resFormat = await SoftwareService.sougouFormat(res)
-        ctx.body = resFormat
+    async sogouDetail(ctx) {
+        try{
+            // ctx.verifyParams({
+            //     name: {type: "string", required: true}
+            // })
+            let res = await SoftwareService.sogou(ctx.request.query)
+            let resFormat = await SoftwareService.sogouFormat(res)
+            ctx.body = resFormat
+        } catch (e) {
+            console.log('sogouDetail:', e)
+        }
     }
 }
 

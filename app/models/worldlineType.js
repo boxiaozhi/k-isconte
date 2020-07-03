@@ -2,9 +2,9 @@ const Sequelize = require('sequelize');
 const sequelize = require('../untils/sequelize')
 
 const Model = Sequelize.Model;
-class Worldline extends Model {}
+class WorldlineType extends Model {}
 
-Worldline.init(
+WorldlineType.init(
     {
         id: {
             type: Sequelize.INTEGER(11),
@@ -26,8 +26,8 @@ Worldline.init(
     },
     {
         sequelize,
-        modelName: 'worldline',
-        tableName: 'worldlines',
+        modelName: 'worldlineType',
+        tableName: 'worldline_types',
     });
 
-module.exports = Worldline;
+module.exports = WorldlineType;

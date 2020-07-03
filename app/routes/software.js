@@ -9,6 +9,6 @@ router.get("/tags", SoftwareController.tagList)
 router.post("/tags", SoftwareController.addTag)
 router.put("/tags/:id", SoftwareController.editTag)
 
-router.get('/sougou', SoftwareController.sougouDetail)
+router.get('/sogou', SoftwareController.sogouDetail)
 
 module.exports = router;

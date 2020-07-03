@@ -20,6 +20,9 @@ app.use(
         format: errorFormat
     }),
 );
+
+global.basePath = __dirname
+
 routing(app);
 
 let server = app.listen(3000);

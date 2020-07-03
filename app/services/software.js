@@ -8,42 +8,47 @@ class SoftwareService {
         this.sougouUrl = 'http://xiazai.sogou.com/detail'
     }
 
-    async sougou(params) {
-        const adapter = new FileSync('./db/lowdb/software_sougou.json');
-        const db = low(adapter);
-        db.defaults({
-            data: []
-        }).write()
-        let setting = db.get('data')
-            .find({ name: params.name})
-            .value();
+    async sogou(params) {
+        try{
+            const adapter = new FileSync(global.basePath +'/db/lowdb/software_sougou.json');
+            const db = low(adapter);
+            // db.defaults({
+            //     data: []
+            // }).write()
+            let setting = db.get('data')
+                .find({ name: params.name})
+                .value();
 
-        console.log(setting)
-        let uri = this.sougouUrl+setting.url
-        console.log(uri)
-        let options = {
-            method: 'GET',
-            uri: uri,
-            headers: {
-                Host: 'xiazai.sogou.com',
-                Origin: 'xiazai.sogou.com',
-                Referer: 'xiazai.sogou.com',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            console.log(setting)
+            let uri = this.sougouUrl+setting.url
+            console.log(uri)
+            let options = {
+                method: 'GET',
+                uri: uri,
+                headers: {
+                    Host: 'xiazai.sogou.com',
+                    Origin: 'xiazai.sogou.com',
+                    Referer: 'xiazai.sogou.com',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                }
             }
-        }
-        return rp(options)
-            .then(function (html) {
-                return new Promise((resolve) => {
-                    resolve(html)
+            return rp(options)
+                .then(function (html) {
+                    return new Promise((resolve) => {
+                        resolve(html)
+                    })
                 })
-            })
-            .catch(function (err) {
-                return err
-            });
+                .catch(function (err) {
+                    return err
+                });
+        } catch (e) {
+            console.log('e:', e)
+        }
+
     }
 
-    async sougouFormat(html) {
+    async sogouFormat(html) {
         let data = {}
         data.source = 'sougou'
         let $ = cheerio.load(html)
@@ -60,8 +65,8 @@ class SoftwareService {
         data.updateDate = date
         data.size = size
         data.site = site
-        for(var name in data) {
-            data[name] = data[name].replace(/.*?：/gi, '')
+        for(let index in data) {
+            data[index] = data[index].replace(/.*?：/gi, '')
         }
         return data
     }

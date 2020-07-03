@@ -7,21 +7,29 @@ class WorldlineRecord extends Model {}
 WorldlineRecord.init(
     {
         id: {
-            type: Sequelize.INTEGER(11),
+            type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        software_id: {
-            type: Sequelize.INTEGER(11),
+        type_id: {
+            type: Sequelize.INTEGER,
             comment: '主表ID',
         },
-        version: {
+        title: {
             type: Sequelize.STRING,
-            comment: '版本号',
+            comment: '标题',
         },
-        data: {
-            type: Sequelize.JSON,
-            comment: '抓取数据',
+        url: {
+            type: Sequelize.STRING,
+            comment: '链接',
+        },
+        ori_created_at: {
+            type: Sequelize.BIGINT(11),
+            comment: '源创建时间',
+        },
+        ori_md5: {
+            type: Sequelize.STRING,
+            comment: '源信息 MD5，用于唯一性处理',
         },
     },
     {

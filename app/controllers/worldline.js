@@ -1,6 +1,6 @@
 const { ERROR_CODE } = require("../untils/error")
 
-const Worldline = require("../models/worldline")
+const Worldline = require("../models/worldlineType")
 const WorldlineRecord = require("../models/worldlineRecord")
 const SoftwareService = require('../services/software')
 

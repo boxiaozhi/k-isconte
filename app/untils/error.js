@@ -4,13 +4,13 @@ const ERROR_CODE = {
 }
 
 const ERROR_MSG = {
-    1001: 'Token 过期，请重新获取',
+    1001: '请重新获取',
     4001: '未找到数据',
 }
 
 function codeDeal(err) {
     let code = err.code || err.status
-    if (err.status == 401 && err.originalError.name == 'TokenExpiredError'){
+    if (err.status == 401){
         code = 1001
     }
     return code
